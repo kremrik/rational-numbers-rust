@@ -1,7 +1,6 @@
-use std::ops::{Add, Sub};
-use std::fmt;
 use std::error::Error;
-
+use std::fmt;
+use std::ops::{Add, Sub};
 
 // macros
 // --------------------------------------------------------
@@ -9,25 +8,23 @@ use std::error::Error;
 macro_rules! rat {
     ($num:literal / $denom:literal) => {
         RationalNumber::new($num, $denom)
-    }
+    };
 }
-
 
 // Error types
 // --------------------------------------------------------
 #[derive(Debug)]
 pub struct RationalNumberError {
-    details: String
+    details: String,
 }
 
 impl fmt::Display for RationalNumberError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_struct("RationalNumberError")
-         .field("details", &self.details)
-         .finish()
+            .field("details", &self.details)
+            .finish()
     }
 }
-
 
 impl Error for RationalNumberError {
     fn description(&self) -> &str {
@@ -35,15 +32,13 @@ impl Error for RationalNumberError {
     }
 }
 
-
 // Core types
 // --------------------------------------------------------
 #[derive(PartialEq)]
 pub struct RationalNumber {
     num: i32,
-    denom: i32
+    denom: i32,
 }
-
 
 impl RationalNumber {
     pub fn new(num: i32, denom: i32) -> Result<RationalNumber, RationalNumberError> {
@@ -68,13 +63,11 @@ impl RationalNumber {
     }
 }
 
-
 impl fmt::Debug for RationalNumber {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}/{}", self.num, self.denom)
     }
 }
-
 
 impl Add for RationalNumber {
     type Output = RationalNumber;
@@ -85,13 +78,12 @@ impl Add for RationalNumber {
 
         let mut output = RationalNumber {
             num: numerator,
-            denom: denominator
+            denom: denominator,
         };
         output.reduce();
         output
     }
 }
-
 
 impl Sub for RationalNumber {
     type Output = RationalNumber;
@@ -102,13 +94,12 @@ impl Sub for RationalNumber {
 
         let mut output = RationalNumber {
             num: numerator,
-            denom: denominator
+            denom: denominator,
         };
         output.reduce();
         output
     }
 }
-
 
 // GCD via simple Euclid's algorithm
 // --------------------------------------------------------
